@@ -1,0 +1,40 @@
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { cn } from '@utils/cn.js';
+
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+export type ButtonSize = 'md' | 'lg';
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  children: ReactNode;
+}
+
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
+  primary: 'bg-accent text-on-accent hover:bg-accent/90',
+  secondary: 'bg-primary text-on-primary hover:bg-primary/90',
+  outline: 'border border-border bg-card text-foreground hover:bg-muted',
+  ghost: 'text-foreground hover:bg-muted',
+};
+
+const SIZE_CLASSES: Record<ButtonSize, string> = {
+  md: 'h-11 px-5 text-sm',
+  lg: 'h-14 px-7 text-base',
+};
+
+export function buttonClasses(variant: ButtonVariant = 'primary', size: ButtonSize = 'md', className?: string): string {
+  return cn(
+    'inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg font-semibold transition-colors duration-200 focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    VARIANT_CLASSES[variant],
+    SIZE_CLASSES[size],
+    className,
+  );
+}
+
+export function Button({ variant = 'primary', size = 'md', className, children, ...rest }: ButtonProps) {
+  return (
+    <button type="button" className={buttonClasses(variant, size, className)} {...rest}>
+      {children}
+    </button>
+  );
+}
