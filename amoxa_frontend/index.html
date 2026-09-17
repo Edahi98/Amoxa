@@ -1,10 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>amoxa_frontend</title>
+    <meta
+      name="description"
+      content="Amoxa concentra la planeación, ejecución y cierre de tus auditorías internas ISO 9001 / ISO 19011 en un solo lugar, con trazabilidad exigida por la norma."
+    />
+    <title>Amoxa — Auditorías internas ISO 9001</title>
+    <script>
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('amoxa-theme');
+          var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch (error) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

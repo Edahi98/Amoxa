@@ -29,7 +29,18 @@
       "@sdui-parsers-state/*": ["./src/sdui/parsing/parsers/state/*"],
       "@sdui-parsers-action/*": ["./src/sdui/parsing/parsers/action/*"],
       "@sdui-parsing-support/*": ["./src/sdui/parsing/support/*"],
-      "@sdui-traversal/*": ["./src/sdui/traversal/*"]
+      "@sdui-traversal/*": ["./src/sdui/traversal/*"],
+
+      "@app/*": ["./src/app/*"],
+      "@atoms/*": ["./src/components/atoms/*"],
+      "@molecules/*": ["./src/components/molecules/*"],
+      "@organisms/*": ["./src/components/organisms/*"],
+      "@templates/*": ["./src/components/templates/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@assets/*": ["./src/assets/*"]
     },
 
     /* Linting */
