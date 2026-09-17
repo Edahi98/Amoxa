@@ -1,9 +1,9 @@
 import { MarketingTemplate } from '@templates/MarketingTemplate.js';
-import { HeroSection } from '@organisms/HeroSection.js';
-import { FrameworkSection } from '@organisms/FrameworkSection.js';
-import { CycleSection } from '@organisms/CycleSection.js';
-import { RestrictionsSection } from '@organisms/RestrictionsSection.js';
-import { FinalCtaSection } from '@organisms/FinalCtaSection.js';
+import { HeroSection } from '@organisms-marketing/HeroSection.js';
+import { FrameworkSection } from '@organisms-marketing/FrameworkSection.js';
+import { CycleSection } from '@organisms-marketing/CycleSection.js';
+import { RestrictionsSection } from '@organisms-marketing/RestrictionsSection.js';
+import { FinalCtaSection } from '@organisms-marketing/FinalCtaSection.js';
 
 export function Home() {
   return (

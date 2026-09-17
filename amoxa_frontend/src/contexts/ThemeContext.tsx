@@ -1,6 +1,5 @@
 import { createContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-
-export type Theme = 'light' | 'dark';
+import { ThemeStorage, type Theme } from '@utils-storage/themeStorage.js';
 
 export interface ThemeContextValue {
   theme: Theme;
@@ -10,27 +9,12 @@ export interface ThemeContextValue {
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const STORAGE_KEY = 'amoxa-theme';
-
-function readStoredTheme(): Theme | null {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    return stored === 'light' || stored === 'dark' ? stored : null;
-  } catch {
-    return null;
-  }
-}
-
-function readSystemTheme(): Theme {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
 export interface ThemeProviderProps {
   children: ReactNode;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(() => readStoredTheme() ?? readSystemTheme());
+  const [theme, setThemeState] = useState<Theme>(() => ThemeStorage.getStored() ?? ThemeStorage.getSystemPreference());
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -39,7 +23,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   useEffect(() => {
     const query = window.matchMedia('(prefers-color-scheme: dark)');
     const listener = (event: MediaQueryListEvent) => {
-      if (readStoredTheme() === null) {
+      if (ThemeStorage.getStored() === null) {
         setThemeState(event.matches ? 'dark' : 'light');
       }
     };
@@ -49,11 +33,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   const setTheme = (next: Theme) => {
     setThemeState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      return;
-    }
+    ThemeStorage.setStored(next);
   };
 
   const toggleTheme = () => {

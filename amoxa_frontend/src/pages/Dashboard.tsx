@@ -1,4 +1,9 @@
+import { Button } from '@atoms-button/Button.js';
+import { useAuth } from '@hooks/useAuth.js';
+
 export function Dashboard() {
+  const { user, logout } = useAuth();
+
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-6 text-center">
       <div>
@@ -8,6 +13,10 @@ export function Dashboard() {
           Esta pantalla se construirá a partir del JSON de pantalla (SDUI) que devuelve el backend. Ver
           TODO.md para el plan de implementación.
         </p>
+        {user ? <p className="mt-4 text-sm text-muted-foreground">Sesión iniciada como {user.email}</p> : null}
+        <Button variant="outline" className="mt-6" onClick={logout}>
+          Cerrar sesión
+        </Button>
       </div>
     </div>
   );
