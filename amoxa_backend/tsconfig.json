@@ -20,7 +20,14 @@
       "@schemas-auditoria/*": ["./src/db/schema/auditoria/*"],
       "@schemas-auditor/*": ["./src/db/schema/auditor/*"],
       "@schemas-evidencia/*": ["./src/db/schema/evidencia/*"],
-      "@schemas-informe/*": ["./src/db/schema/informe/*"]
+      "@schemas-informe/*": ["./src/db/schema/informe/*"],
+      "@db/*": ["./src/db/*"],
+      "@auth/*": ["./src/auth/*"],
+      "@auth-guards/*": ["./src/auth/guards/*"],
+      "@auth-types/*": ["./src/auth/types/*"],
+      "@auth-token/*": ["./src/auth/token/*"],
+      "@validators/*": ["./src/validators/*"],
+      "@common/*": ["./src/common/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
