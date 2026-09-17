@@ -18,4 +18,5 @@ export * from '@schemas-evidencia/accion.schema.js';
 export * from '@schemas-informe/informe.schema.js';
 export * from '@schemas-informe/distribucion-informe.schema.js';
 export * from '@schemas/informacion-documentada.schema.js';
+export * from '@schemas/token.schema.js';
 export * from '@schemas/relations.js';

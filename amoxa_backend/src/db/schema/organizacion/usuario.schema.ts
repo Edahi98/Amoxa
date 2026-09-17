@@ -12,5 +12,6 @@ export const usuario = pgTable('usuario', {
   procesoId: uuid('proceso_id').references((): AnyPgColumn => proceso.id),
   nombre: varchar('nombre', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
+  passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   rol: rolUsuarioEnum('rol').notNull(),
 });

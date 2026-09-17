@@ -17,6 +17,7 @@ import { accion } from '@schemas-evidencia/accion.schema.js';
 import { informe } from '@schemas-informe/informe.schema.js';
 import { distribucionInforme } from '@schemas-informe/distribucion-informe.schema.js';
 import { informacionDocumentada } from '@schemas/informacion-documentada.schema.js';
+import { token } from '@schemas/token.schema.js';
 
 export const organizacionRelations = relations(organizacion, ({ many }) => ({
   usuarios: many(usuario),
@@ -44,6 +45,7 @@ export const usuarioRelations = relations(usuario, ({ one, many }) => ({
   informesAceptados: many(informe),
   distribuciones: many(distribucionInforme),
   documentosCreados: many(informacionDocumentada),
+  tokens: many(token),
 }));
 
 export const procesoRelations = relations(proceso, ({ one, many }) => ({
@@ -235,6 +237,13 @@ export const distribucionInformeRelations = relations(distribucionInforme, ({ on
 export const informacionDocumentadaRelations = relations(informacionDocumentada, ({ one }) => ({
   creadoPor: one(usuario, {
     fields: [informacionDocumentada.creadoPorId],
+    references: [usuario.id],
+  }),
+}));
+
+export const tokenRelations = relations(token, ({ one }) => ({
+  usuario: one(usuario, {
+    fields: [token.usuarioId],
     references: [usuario.id],
   }),
 }));
