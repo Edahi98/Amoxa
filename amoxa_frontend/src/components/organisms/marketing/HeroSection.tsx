@@ -1,6 +1,6 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import { Container } from '@atoms/Container.js';
-import { LinkButton } from '@atoms/LinkButton.js';
+import { LinkButton } from '@atoms-button/LinkButton.js';
 
 export function HeroSection() {
   return (
@@ -12,17 +12,17 @@ export function HeroSection() {
       <Container className="relative">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tight text-balance text-foreground md:text-6xl">
-            Lo que esta app no te deja hacer es la razón por la que pasas tu auditoría externa.
+            Amoxa hace cumplir, dentro del sistema, las restricciones que ISO 9001 y ISO 19011 exigen en
+            una auditoría interna.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Amoxa concentra todo el ciclo de auditoría interna de tu sistema de gestión — planear, ejecutar,
-            cerrar y mejorar — y hace cumplir estructuralmente la cláusula 9.2 de ISO 9001:2015 y las
-            directrices de ISO 19011:2026. No es una checklist más: es el sistema que no deja avanzar sin la
-            evidencia, la imparcialidad y las firmas que un auditor externo va a pedir.
+            Concentra el ciclo de auditoría interna — planear, ejecutar, cerrar y mejorar — y aplica la
+            cláusula 9.2 de ISO 9001:2015 y las directrices de ISO 19011:2026: no deja avanzar sin
+            evidencia, verificación de imparcialidad y los registros que una auditoría externa revisa.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <LinkButton to="/dashboard" size="lg">
-              Ir al panel
+            <LinkButton to="/login" size="lg">
+              Iniciar sesión
               <ArrowRight size={18} weight="bold" aria-hidden="true" />
             </LinkButton>
             <a

@@ -1,6 +1,6 @@
 import { CalendarCheck, ClipboardText, SealCheck } from '@phosphor-icons/react';
 import { Container } from '@atoms/Container.js';
-import { CycleStep } from '@molecules/CycleStep.js';
+import { CycleStep } from '@molecules-marketing/CycleStep.js';
 
 const STEPS = [
   {
@@ -46,11 +46,10 @@ export function CycleSection() {
     <section id="ciclo" className="py-24">
       <Container>
         <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-balance text-foreground md:text-4xl">
-          Un ciclo, no una lista de funciones sueltas
+          El ciclo de auditoría interna
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Cada fase existe porque ISO 19011 la exige en ese orden. Saltarte una no es una opción de
-          configuración.
+          Las tres fases siguen el orden que exige ISO 19011; el sistema no permite saltarse una.
         </p>
         <div className="mt-16 space-y-16 md:space-y-20">
           {STEPS.map((step) => (

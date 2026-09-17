@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '@utils/cn.js';
+import { ClassNames } from '@utils/cn.js';
 
 export interface ContainerProps {
   children: ReactNode;
@@ -7,5 +7,5 @@ export interface ContainerProps {
 }
 
 export function Container({ children, className }: ContainerProps) {
-  return <div className={cn('mx-auto w-full max-w-6xl px-6', className)}>{children}</div>;
+  return <div className={ClassNames.merge('mx-auto w-full max-w-6xl px-6', className)}>{children}</div>;
 }

@@ -105,15 +105,15 @@ Paleta de confianza B2B: azul como color de marca/estructura, un único acento n
 conversión.
 
 ### Primary
-- **Azul Confianza** (`#2563EB`): marca, enlaces de acción secundaria, CTA de navegación ("Ir al panel"),
-  franja de gradiente decorativa del hero, sección final de CTA (como fondo, en degradado con Secondary).
+- **Azul Confianza** (`#2563EB`): marca, enlaces de acción secundaria, franja de gradiente decorativa del
+  hero, sección final de CTA (como fondo, en degradado con Secondary).
 
 ### Secondary
 - **Azul Cielo** (`#3B82F6`): extremo del degradado de la sección de CTA final; nunca se usa solo.
 
 ### Tertiary
-- **Naranja Acento** (`#EA580C`): reservado casi en exclusiva para el botón primario ("Ir al panel" en el
-  hero, CTA final). Su escasez es la señal de "esta es la acción".
+- **Naranja Acento** (`#EA580C`): reservado casi en exclusiva para el botón primario ("Iniciar sesión" en
+  el hero, CTA final). Su escasez es la señal de "esta es la acción".
 
 ### Neutral
 - **Fondo** (`#F8FAFC`): fondo base de toda la página.
@@ -197,8 +197,13 @@ color a la izquierda/derecha en cards ni callouts.
 ### Buttons
 - **Shape:** `rounded-lg` (8px), altura fija `h-11` (44px, cumple mínimo táctil) o `h-14` (56px) en tamaño `lg`.
 - **Primary:** fondo `accent` (naranja), texto blanco — única acción por viewport.
-- **Secondary:** fondo `primary` (azul), texto blanco — usado en la navegación ("Ir al panel").
+- **Secondary:** fondo `primary` (azul), texto blanco — usado en el panel de CTA final si se necesita una
+  segunda acción (hoy no se usa en Home).
 - **Outline:** fondo `card` translúcido + borde, usado como CTA secundaria del hero ("Ver qué no te deja hacer").
+- **Ghost:** sin fondo, texto `foreground` — usado para el enlace "Iniciar sesión" del header de
+  navegación; deliberadamente de menor peso que el CTA primario del hero para no competir con él en el
+  mismo viewport (Home es una superficie solo para visitantes sin sesión; un usuario ya autenticado nunca
+  la ve — `GuestRoute` lo redirige a `/dashboard`).
 - **Hover:** oscurecimiento de fondo (`/90` de opacidad) en 200ms; foco visible con `outline-ring` de 2px.
 
 ### Cards / Containers (paneles de vidrio)
@@ -210,7 +215,9 @@ color a la izquierda/derecha en cards ni callouts.
 
 ### Navigation
 - Header `sticky top-0`, fondo `bg-white/70` + `backdrop-blur-md`, enlaces en `muted-foreground` que pasan
-  a `foreground` en hover, sin subrayado. En mobile, solo logo + CTA (los enlaces de ancla se colapsan).
+  a `foreground` en hover, sin subrayado. En mobile (`<md`), los enlaces de ancla y el CTA de texto se
+  colapsan detrás de un botón de menú (ícono `List`/`X` de Phosphor) que despliega el mismo listado de
+  enlaces — nunca desaparecen sin alternativa.
 
 ### Restricciones (componente de firma)
 Lista de "lo que la app no deja hacer": cada fila lleva un ícono `Prohibit` (Phosphor) en círculo rojo

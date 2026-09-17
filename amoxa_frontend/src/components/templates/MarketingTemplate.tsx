@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { SiteHeader } from '@organisms/SiteHeader.js';
-import { SiteFooter } from '@organisms/SiteFooter.js';
+import { SiteHeader } from '@organisms-marketing/SiteHeader.js';
+import { SiteFooter } from '@organisms-marketing/SiteFooter.js';
 
 export interface MarketingTemplateProps {
   children: ReactNode;

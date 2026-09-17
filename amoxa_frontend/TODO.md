@@ -26,20 +26,31 @@ Lo que quedó fuera de esta pasada (solo se construyó `Home`). Ver [PRODUCT.md]
 
 ## Autenticación en el frontend
 
-- `AuthContext` en `src/contexts/` (usuario actual, token, `login`/`logout`), consumiendo
-  `POST /auth/login` y `POST /auth/register` del backend.
-- Guardar el JWT (30 min de vida) y renovar la sesión o redirigir a login al expirar / recibir 401.
-- `ProtectedRoute` (o loader de `react-router-dom`) que proteja `/dashboard`.
-- Páginas/formularios de login y registro reales (hoy `Home` solo enlaza directo a `/dashboard` sin
-  pasar por auth).
-- El registro público (`/auth/register`) hoy exige conocer un `organizacionId` existente — no hay flujo
-  de alta de organización nueva. Definir con el backend cómo entra una organización nueva al sistema
-  antes de construir el formulario de registro.
+Ya implementado: `AuthContext`/`useAuth` (`src/contexts/`, `src/hooks/`), página `/login`
+(`src/pages/Login.tsx` + `LoginForm`), `ProtectedRoute` protegiendo `/dashboard`, token guardado en
+`localStorage` con expiración leída del propio JWT, y CORS habilitado en el backend
+(`CORS_ORIGIN` en `.env`). Probado end-to-end contra el backend real: login válido, credenciales
+inválidas, logout, y redirect automático a `/login` al entrar a `/dashboard` sin sesión.
+
+Pendiente:
+- Renovar la sesión antes de que expire (hoy solo se detecta la expiración y se cierra sesión; no hay
+  refresh token ni backend que lo soporte todavía).
+- Interceptar 401 de cualquier llamada futura al backend (no solo login) y redirigir a `/login`.
+- Página/formulario de registro real. El registro público (`POST /auth/register`) hoy exige conocer un
+  `organizacionId` existente — no hay flujo de alta de organización nueva. Definir con el backend cómo
+  entra una organización nueva al sistema antes de construir el formulario.
+- Mensaje de error de login siempre es genérico ("Credenciales inválidas"), a propósito (no revela si
+  el email existe) — respetarlo si se agrega más UX alrededor del formulario.
+- **"¿Olvidaste tu contraseña?" — falta por completo, marcado P0 en crítica de `/impeccable critique`
+  sobre `/login`.** Es el escape real que necesita un usuario con credenciales incorrectas (más frecuente
+  que "regresar a Home"); hoy no hay forma de recuperar acceso. Requiere decidir infraestructura de envío
+  de correo (proveedor SMTP, expiración de token, página de reseteo) antes de construir el endpoint en
+  `amoxa_backend` y el formulario en frontend — no implementado a propósito hasta tener esa decisión.
 
 ## Componentes por construir (cuando el Dashboard los necesite)
 
-Átomos: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Toggle`, `DateInput`, `Avatar`,
-`Spinner`, `Toast`.
+Átomos: `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Toggle`, `DateInput`, `Avatar`, `Spinner`,
+`Toast` (`Input` ya existe en `@atoms/Input.js`).
 Moléculas/organismos del shell autenticado: `Sidebar`, `TopBar` (menú de usuario), `EmptyState`, banner de
 `sync_status` (offline), `Modal`.
 
@@ -52,16 +63,17 @@ Worker/PWA. Diseñar aparte, no como afterthought del renderer SDUI.
 
 ## Cliente API
 
-No existe todavía una capa tipada para llamar al backend (`amoxa_backend`). Falta un cliente
-(`fetch`/hook) que agregue el header `Authorization`, maneje 401 y sirva de base a las `call_api` del
-motor SDUI.
+Existe `AuthApi` (`src/utils/auth/authApi.ts`) solo para `POST /auth/login`. Falta generalizarlo a un
+cliente que agregue el header `Authorization` con el token de `AuthContext`, maneje 401 (logout +
+redirect), y sirva de base a las `call_api` del motor SDUI.
 
 ## Calidad / pulido
 
 - Validado visualmente en desktop (1440) y mobile (375), claro y oscuro. Falta 768/1024 y Safari/iOS real
   (solo se probó en el navegador embebido de la sesión).
 - Sin tests de componentes UI todavía (solo existen los del parser SDUI). Agregar Vitest + Testing
-  Library para `Button`, `LinkButton`, `ThemeToggle`/`ThemeContext`, y los organismos de `Home`.
+  Library para `Button`, `LinkButton`, `Input`, `ThemeToggle`/`ThemeContext`, `LoginForm`/`AuthContext`/
+  `ProtectedRoute`, y los organismos de `Home`.
 - Sin auditoría de accesibilidad automatizada (axe-core u otra) corrida sobre `Home`.
 - Favicon sigue siendo el default de Vite (`public/favicon.svg`) — reemplazar por una marca real de
   Amoxa.

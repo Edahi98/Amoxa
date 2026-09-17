@@ -1,5 +1,5 @@
 import { Container } from '@atoms/Container.js';
-import { RestrictionRow } from '@molecules/RestrictionRow.js';
+import { RestrictionRow } from '@molecules-marketing/RestrictionRow.js';
 
 const RESTRICTIONS = [
   'Publicar una lista de verificación que no cubra tanto la norma como los procedimientos internos.',
@@ -20,8 +20,8 @@ export function RestrictionsSection() {
               Lo que la app no deja hacer, a propósito
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Estas restricciones no son un capricho: son exactamente los puntos que un auditor externo
-              revisa. En vez de confiar en que tu equipo se acuerde, el sistema las hace cumplir por diseño.
+              Son los puntos que un auditor externo revisa en una auditoría de certificación. El sistema los
+              hace cumplir por diseño, en vez de depender de que el equipo los recuerde.
             </p>
           </div>
           <ul className="rounded-2xl border border-white/60 bg-white/70 px-6 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-slate-800/70">

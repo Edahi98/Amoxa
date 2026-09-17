@@ -32,14 +32,21 @@
       "@sdui-traversal/*": ["./src/sdui/traversal/*"],
 
       "@app/*": ["./src/app/*"],
+      "@app-guards/*": ["./src/app/guards/*"],
       "@atoms/*": ["./src/components/atoms/*"],
+      "@atoms-button/*": ["./src/components/atoms/button/*"],
       "@molecules/*": ["./src/components/molecules/*"],
+      "@molecules-marketing/*": ["./src/components/molecules/marketing/*"],
       "@organisms/*": ["./src/components/organisms/*"],
+      "@organisms-marketing/*": ["./src/components/organisms/marketing/*"],
       "@templates/*": ["./src/components/templates/*"],
       "@pages/*": ["./src/pages/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
+      "@utils-auth/*": ["./src/utils/auth/*"],
+      "@utils-storage/*": ["./src/utils/storage/*"],
       "@contexts/*": ["./src/contexts/*"],
+      "@validators/*": ["./src/validators/*"],
       "@assets/*": ["./src/assets/*"]
     },
 
