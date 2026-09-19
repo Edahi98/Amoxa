@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ClassNames } from '@utils/cn.js';
+import { ClassNames } from '@utils-style/cn.js';
 
 export interface ContainerProps {
   children: ReactNode;

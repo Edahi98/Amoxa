@@ -1,13 +1,15 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { ClassNames } from '@utils/cn.js';
+import type { Icon } from '@phosphor-icons/react';
+import { ClassNames } from '@utils-style/cn.js';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 export type ButtonSize = 'md' | 'lg';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  children: ReactNode;
+  icon?: Icon;
+  children?: ReactNode;
 }
 
 export class ButtonStyles {
@@ -16,6 +18,7 @@ export class ButtonStyles {
     secondary: 'bg-primary text-on-primary hover:bg-primary/90',
     outline: 'border border-border bg-card text-foreground hover:bg-muted',
     ghost: 'text-foreground hover:bg-muted',
+    danger: 'bg-destructive text-on-destructive hover:bg-destructive/90',
   };
 
   private static readonly SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -33,9 +36,10 @@ export class ButtonStyles {
   }
 }
 
-export function Button({ variant = 'primary', size = 'md', className, children, ...rest }: ButtonProps) {
+export function Button({ variant = 'primary', size = 'md', icon: LeadingIcon, className, children, ...rest }: ButtonProps) {
   return (
     <button type="button" className={ButtonStyles.classes(variant, size, className)} {...rest}>
+      {LeadingIcon ? <LeadingIcon size={18} weight="bold" aria-hidden="true" /> : null}
       {children}
     </button>
   );
