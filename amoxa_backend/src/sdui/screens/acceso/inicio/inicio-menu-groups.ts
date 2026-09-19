@@ -5,10 +5,10 @@ export interface InicioMenuGroup {
 }
 
 export class InicioMenuGroups {
-  private static readonly HIDDEN: readonly string[] = ['usuario.editar'];
+  private static readonly HIDDEN: readonly string[] = ['usuario.editar', 'flujo.guia', 'flujo.avance'];
 
   private static readonly TITLES: ReadonlyArray<readonly [string, string, readonly string[]]> = [
-    ['administracion', 'Administración', ['usuario', 'solicitud']],
+    ['administracion', 'Administración', ['usuario', 'solicitud', 'marca']],
     ['programa', 'Programa anual', ['programa']],
     ['plantillas', 'Plantillas', ['plantilla']],
     ['auditores', 'Auditores', ['auditor']],
@@ -18,6 +18,7 @@ export class InicioMenuGroups {
     ['acciones', 'Acciones', ['accion']],
     ['seguimiento', 'Seguimiento', ['dashboard', 'revision']],
     ['registros', 'Registros', ['registro']],
+    ['flujos', 'Flujos de trabajo', ['flujo']],
     ['cuenta', 'Mi cuenta', ['notificaciones', 'perfil']],
   ];
 

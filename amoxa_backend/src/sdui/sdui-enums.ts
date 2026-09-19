@@ -5,7 +5,7 @@ export const COMPONENT_TYPES = [
   'checklist_item', 'evidence_capture', 'signature', 'geo_stamp',
   'person_picker', 'process_picker', 'clause_picker',
   'finding_card', 'action_card', 'audit_card', 'program_calendar', 'gantt',
-  'button', 'banner', 'empty_state', 'sync_status', 'table',
+  'button', 'banner', 'empty_state', 'sync_status', 'table', 'file_input', 'code_scanner', 'sortable_list',
 ] as const;
 export type ComponentType = (typeof COMPONENT_TYPES)[number];
 

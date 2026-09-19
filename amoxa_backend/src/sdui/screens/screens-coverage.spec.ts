@@ -17,6 +17,6 @@ describe('cobertura de pantallas', () => {
 
     expect(new Set(registradas).size).toBe(registradas.length);
     expect([...registradas].sort()).toEqual([...declaradas, ...RoleAccess.SHARED_SCREENS].sort());
-    expect(registradas).toHaveLength(41);
+    expect(registradas).toHaveLength(45);
   });
 });

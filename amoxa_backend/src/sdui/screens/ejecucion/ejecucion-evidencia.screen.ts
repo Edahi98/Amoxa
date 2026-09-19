@@ -45,6 +45,9 @@ export class EjecucionEvidenciaScreen extends ScreenDefinition {
               .required()
               .validations('EVIDENCIA_VACIA'),
             UiKit.geoStamp('ubicacion', 'Ubicación de la captura', 'evidencia.ubicacion'),
+            UiKit.codeScanner('codigo', 'Código QR o de barras del equipo o documento', 'evidencia.codigo', {
+              hint: 'Opcional. Escanee con la cámara o escriba el código; queda ligado a la respuesta.',
+            }),
             UiKit.toggle('verificada', 'Marcar la evidencia como verificada', 'evidencia.verificada'),
           ),
           UiKit.row(

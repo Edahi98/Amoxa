@@ -1,4 +1,5 @@
 import { ActionBuilder } from '@sdui-builder/action-builder.js';
+import { ConditionBuilder } from '@sdui-builder/condition-builder.js';
 import type { ScreenBuilder } from '@sdui-builder-screen/screen-builder.js';
 import type { ScreenContextBuilder } from '@sdui-builder-screen/screen-context-builder.js';
 import { StateMachineBuilder } from '@sdui-builder/state-machine-builder.js';
@@ -37,6 +38,28 @@ export class InformeDistribuirScreen extends ScreenDefinition {
               .required()
               .validations('SIN_DESTINATARIOS', 'SIN_DESTINATARIO_DIRECCION'),
           ),
+          UiKit.section(
+            'compartir',
+            'Compartir por enlace',
+            UiKit.text(
+              'compartir_texto',
+              'Genere un enlace para que una persona sin cuenta descargue el informe. Vence en 7 días y puede revocarlo cuando quiera.',
+              'body',
+              'muted',
+            ),
+            UiKit.banner(
+              'aviso_enlace',
+              'warning',
+              'El enlace se muestra una sola vez. Cópielo ahora; cualquiera que lo tenga puede descargar el informe hasta que venza o lo revoque.',
+            ).visibleIf(ConditionBuilder.field('enlaceUrl', 'not_empty')),
+            UiKit.boundText('enlace_url', 'enlaceUrl', '', 'body'),
+            UiKit.boundText('enlace_vence', 'enlaceExpira', '', 'caption', 'muted'),
+            UiKit.row(
+              'acciones_enlace',
+              UiKit.button('btn_enlace', 'Generar enlace', 'outline', 'generar_enlace'),
+              UiKit.button('btn_revocar', 'Revocar enlaces', 'ghost', 'revocar_enlaces'),
+            ),
+          ),
           UiKit.row(
             'acciones',
             UiKit.button('btn_enviar', 'Enviar informe', 'primary', 'enviar_informe'),
@@ -60,6 +83,18 @@ export class InformeDistribuirScreen extends ScreenDefinition {
           requires: ['SIN_DESTINATARIOS', 'SIN_DESTINATARIO_DIRECCION', 'INFORME_NO_FIRMADO'],
         }),
       );
+  }
+
+  @ActionDecorator.of({ id: 'generar_enlace', permission: 'informe.distribuir' })
+  public generarEnlace(): ActionBuilder {
+    return ActionKit.callApi('POST', '/informes/{entity.id}/enlaces').payload({});
+  }
+
+  @ActionDecorator.of({ id: 'revocar_enlaces', permission: 'informe.distribuir' })
+  public revocarEnlaces(): ActionBuilder {
+    return ActionKit.callApi('POST', '/informes/{entity.id}/enlaces/revocar')
+      .payload({})
+      .confirmText('Los enlaces generados dejarán de funcionar. ¿Revocarlos?');
   }
 
   @ActionDecorator.of({ id: 'enviar_informe', permission: 'informe.distribuir' })

@@ -129,14 +129,14 @@ describe('pantalla inicio', () => {
 describe('barra lateral (shell.navegacion)', () => {
   const items = (role: SessionRole) =>
     ScreenJsonChecks.components(ScreenJsonChecks.build(role, 'shell.navegacion').root).filter(
-      (component) => component.type === 'button' && component.props?.['display'] === 'nav',
+      (component) => component.type === 'button' && component.props?.['display'] === 'nav' && component.props?.['locked'] !== true,
     );
 
   it.each(SESSION_ROLES)('lista Inicio y solo las pantallas que %s puede ver, sin las que necesitan un registro', (role) => {
     const destinos = items(role)
       .map((component) => component.props?.['target'])
       .sort();
-    const esperados = ['inicio', ...ROLES[role].screens.filter((id) => id !== 'inicio' && id !== 'acceso.login' && id !== 'usuario.editar')].sort();
+    const esperados = ['inicio', 'flujo.lista', ...ROLES[role].screens.filter((id) => id !== 'inicio' && id !== 'acceso.login' && id !== 'usuario.editar')].sort();
 
     expect(destinos).toEqual(esperados);
   });

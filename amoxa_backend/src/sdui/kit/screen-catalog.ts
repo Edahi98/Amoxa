@@ -45,6 +45,10 @@ export class ScreenCatalog {
     'usuario.crear': { icon: 'user-plus', description: 'Dar de alta con enlace de invitación.' },
     'usuario.editar': { icon: 'user-gear', description: 'Datos, rol y acceso de una cuenta.' },
     'solicitud.lista': { icon: 'key', description: 'Aprobar o rechazar restablecimientos.' },
+    'flujo.lista': { icon: 'list-checks', description: 'Guías paso a paso de cada proceso.' },
+    'flujo.guia': { icon: 'list-checks', description: 'Pasos, participantes y pantallas de un flujo.' },
+    'flujo.avance': { icon: 'list-checks', description: 'Avance de un flujo en curso.' },
+    'marca.editar': { icon: 'paint-brush', description: 'Logotipo, color y pie de los informes.' },
     'perfil.editar': { icon: 'user-circle', description: 'Sus datos y su contraseña.' },
   };
 

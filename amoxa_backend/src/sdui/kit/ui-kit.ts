@@ -137,6 +137,18 @@ export class UiKit {
     return UiKit.make('number_input', id, { label, ...extra }).bind(path);
   }
 
+  public static fileInput(id: string, label: string, path: string, extra: Props = {}): ComponentBuilder {
+    return UiKit.make('file_input', id, { label, ...extra }).bind(path);
+  }
+
+  public static codeScanner(id: string, label: string, path: string, extra: Props = {}): ComponentBuilder {
+    return UiKit.make('code_scanner', id, { label, ...extra }).bind(path);
+  }
+
+  public static sortableList(id: string, label: string, path: string, extra: Props = {}): ComponentBuilder {
+    return UiKit.make('sortable_list', id, { label, ...extra }).bind(path);
+  }
+
   public static dateInput(id: string, label: string, path: string, extra: Props = {}): ComponentBuilder {
     return UiKit.make('date_input', id, { label, ...extra }).bind(path);
   }
@@ -187,7 +199,7 @@ export class UiKit {
   }
 
   public static evidenceCapture(id: string, label: string, path: string, requireGeo = true): ComponentBuilder {
-    return UiKit.make('evidence_capture', id, { label, accept: 'image/*,application/pdf', requireGeo }).bind(path);
+    return UiKit.make('evidence_capture', id, { label, accept: 'image/*,video/*,application/pdf', requireGeo }).bind(path);
   }
 
   public static signature(id: string, label: string, path: string, signerName?: string): ComponentBuilder {
@@ -268,6 +280,10 @@ export class UiKit {
       icon: ScreenCatalog.of(screenId).icon,
       target: screenId,
     }).on('press', actionId);
+  }
+
+  public static navLocked(id: string, label: string, hint: string): ComponentBuilder {
+    return UiKit.make('button', `bloqueado_${id}`, { label, variant: 'ghost', display: 'nav', locked: true, hint });
   }
 
   public static navTile(screenId: string, label?: string): ComponentBuilder {
