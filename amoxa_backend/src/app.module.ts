@@ -8,6 +8,8 @@ import { ThrottleModule } from '@common-throttle/throttle.module.js';
 import { SetupModule } from '@setup/setup.module.js';
 import { UsuariosModule } from '@usuarios/usuarios.module.js';
 import { SolicitudesClaveModule } from '@solicitudes-clave/solicitudes-clave.module.js';
+import { FlujosModule } from '@flujos/flujos.module.js';
+import { MarcaModule } from '@marca/marca.module.js';
 import { SeedersModule } from '@seeders/seeders.module.js';
 import { ProgramasModule } from '@programas/programas.module.js';
 import { PlantillasModule } from '@plantillas/plantillas.module.js';
@@ -40,6 +42,8 @@ import { NotificacionesModule } from '@notificaciones/notificaciones.module.js';
     NotificacionesModule,
     UsuariosModule,
     SolicitudesClaveModule,
+    FlujosModule,
+    MarcaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

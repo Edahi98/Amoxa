@@ -69,6 +69,24 @@ export class PlantillasService {
     });
   }
 
+  public async reorder(id: string, user: TokenPayload, ids: readonly string[]): Promise<PlantillaView> {
+    return this.db.transaction(async (tx) => {
+      const current = await this.editable(tx, id, user);
+      const existing = await this.query.questions(current.id, tx);
+      const known = new Set(existing.map((question) => question.id));
+      if (ids.length !== known.size || new Set(ids).size !== ids.length || ids.some((item) => !known.has(item))) {
+        throw new UnprocessableEntityException('El orden no coincide con las preguntas de la plantilla.');
+      }
+      for (const [index, questionId] of ids.entries()) {
+        await tx
+          .update(pregunta)
+          .set({ orden: index + 1 })
+          .where(and(eq(pregunta.id, questionId), eq(pregunta.plantillaId, current.id)));
+      }
+      return this.finish(tx, user, current);
+    });
+  }
+
   public async propose(id: string, user: TokenPayload, role: SessionRole, body: PreguntaBody): Promise<PropuestaRow> {
     return this.db.transaction(async (tx) => {
       const viewer: PlantillaViewer = { role, userId: user.sub };

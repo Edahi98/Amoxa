@@ -54,7 +54,7 @@ export class InformeScreenProvider extends ScreenDataProvider {
     };
 
     if (request.screenId === 'informe.distribuir') {
-      return { entity, data: { informe, ...(await this.distributionData(detail)) } };
+      return { entity, data: { informe, enlaceUrl: '', enlaceExpira: '', ...(await this.distributionData(detail)) } };
     }
     if (request.screenId === 'informe.ver') {
       const own = detail.distribucion.find((item) => item.usuarioId === request.user.sub);

@@ -1,5 +1,6 @@
-import { AlignmentType, Document, Footer, Header, PageNumber, Packer, Paragraph, TabStopType, TextRun } from 'docx';
+import { AlignmentType, Document, Footer, Header, ImageRun, PageNumber, Packer, Paragraph, TabStopType, TextRun } from 'docx';
 import { DOCX_MIME, type DocxFile } from '@docx/docx-file.js';
+import type { DocxBrand } from '@docx/docx-brand.js';
 import { DocxKit, type DocxBlock } from '@docx/docx-kit.js';
 import { DocxStyles } from '@docx/docx-styles.js';
 
@@ -12,6 +13,7 @@ export interface DocxDocumentSpec {
   generatedAt?: Date;
   fileName: string;
   body: readonly DocxBlock[];
+  brand?: DocxBrand;
 }
 
 export class DocxRenderer {
@@ -27,11 +29,11 @@ export class DocxRenderer {
         {
           properties: { page: { margin: { top: 1300, bottom: 1200, left: 1100, right: 1100 } } },
           headers: { default: DocxRenderer.header(spec) },
-          footers: { default: DocxRenderer.footer(stamp) },
+          footers: { default: DocxRenderer.footer(stamp, spec.brand) },
           children: [
             new Paragraph({
               spacing: { after: 60 },
-              children: [DocxKit.text(spec.title, { bold: true, color: DocxStyles.PRIMARY, size: DocxStyles.SIZE_TITLE })],
+              children: [DocxKit.text(spec.title, { bold: true, color: spec.brand?.color ?? DocxStyles.PRIMARY, size: DocxStyles.SIZE_TITLE })],
             }),
             ...(spec.subtitle ? [DocxKit.paragraph(spec.subtitle, { muted: true })] : []),
             DocxKit.spacer(160),
@@ -61,6 +63,7 @@ export class DocxRenderer {
   private static header(spec: DocxDocumentSpec): Header {
     return new Header({
       children: [
+        ...DocxRenderer.logo(spec.brand),
         new Paragraph({
           tabStops: [{ type: TabStopType.RIGHT, position: DocxStyles.PAGE_WIDTH_DXA }],
           children: [
@@ -76,9 +79,25 @@ export class DocxRenderer {
     });
   }
 
-  private static footer(stamp: string): Footer {
+  private static logo(brand: DocxBrand | undefined): Paragraph[] {
+    if (brand?.logo === undefined) return [];
+    const { data, type, width, height } = brand.logo;
+    const targetHeight = Math.min(48, height);
+    const targetWidth = Math.max(1, Math.round((width / height) * targetHeight));
+    return [
+      new Paragraph({
+        spacing: { after: 80 },
+        children: [new ImageRun({ type, data, transformation: { width: targetWidth, height: targetHeight }, altText: { title: 'Logotipo', description: 'Logotipo de la organización', name: 'logo' } })],
+      }),
+    ];
+  }
+
+  private static footer(stamp: string, brand?: DocxBrand): Footer {
     return new Footer({
       children: [
+        ...(brand?.footer
+          ? [new Paragraph({ alignment: AlignmentType.CENTER, children: [DocxKit.text(brand.footer, { color: brand.color ?? DocxStyles.MUTED, size: DocxStyles.SIZE_SMALL })] })]
+          : []),
         new Paragraph({
           alignment: AlignmentType.CENTER,
           children: [

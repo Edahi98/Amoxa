@@ -12,4 +12,8 @@ export class AuditActions {
   public static readonly PASSWORD_REQUEST_REJECTED = 'password_request.rejected';
   public static readonly PASSWORD_RESET_COMPLETED = 'password.reset_completed';
   public static readonly PASSWORD_REQUESTS_EXPIRED = 'password_request.expired';
+  public static readonly REPORT_LINK_CREATED = 'report.link_created';
+  public static readonly REPORT_LINK_REVOKED = 'report.link_revoked';
+  public static readonly BRAND_UPDATED = 'brand.updated';
+  public static readonly REPORT_LINK_OPENED = 'report.link_opened';
 }

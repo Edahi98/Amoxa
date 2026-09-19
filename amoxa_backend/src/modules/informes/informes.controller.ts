@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Req, Res, StreamableFile, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query, Req, Res, StreamableFile, UnauthorizedException } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import type { TokenPayload } from '@auth-token/token-payload.js';
 import { Authorized } from '@auth-decorators/authorized.decorator.js';
@@ -12,7 +12,9 @@ import { InformeIdSchema, InformeListQuerySchema, type InformeListQuery } from '
 import { InformeApprovalService } from '@informes-services-informe/informe-approval.service.js';
 import { InformeDistributionService } from '@informes-services-informe/informe-distribution.service.js';
 import { InformeDocumentService } from '@informes-services-informe/informe-document.service.js';
+import { InformeShareService, type SharedLink } from '@informes-services-informe/informe-share.service.js';
 import { InformeReadService } from '@informes-services-informe/informe-read.service.js';
+import { EnlaceCrearSchema, type EnlaceCrearInput } from '@validators-informes/enlace-crear.schema.js';
 import { InformeReviewService } from '@informes-services-informe/informe-review.service.js';
 
 @Controller('informes')
@@ -23,6 +25,7 @@ export class InformesController {
     private readonly distribution: InformeDistributionService,
     private readonly approval: InformeApprovalService,
     private readonly documents: InformeDocumentService,
+    private readonly share: InformeShareService,
   ) {}
 
   @Get()
@@ -76,6 +79,26 @@ export class InformesController {
     @Req() request: Request,
   ) {
     return this.distribution.distribute(id, InformesController.user(request), body.destinatarios);
+  }
+
+  @Post(':id/enlaces')
+  @Authorized.permissions('informe.distribuir')
+  public async createLink(
+    @Param('id', new ZodValidationPipe(InformeIdSchema)) id: string,
+    @Body(new ZodValidationPipe(EnlaceCrearSchema)) body: EnlaceCrearInput,
+    @Req() request: Request,
+  ): Promise<SharedLink> {
+    return this.share.create(id, InformesController.user(request), RequestRole.resolve(request), body.dias, request.ip ?? null);
+  }
+
+  @Post(':id/enlaces/revocar')
+  @HttpCode(HttpStatus.OK)
+  @Authorized.permissions('informe.distribuir')
+  public async revokeLinks(
+    @Param('id', new ZodValidationPipe(InformeIdSchema)) id: string,
+    @Req() request: Request,
+  ): Promise<{ revocados: number }> {
+    return this.share.revokeAll(id, InformesController.user(request), RequestRole.resolve(request), request.ip ?? null);
   }
 
   @Post(':id/acuse')

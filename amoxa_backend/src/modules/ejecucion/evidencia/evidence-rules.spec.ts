@@ -22,6 +22,11 @@ describe('EvidencePolicy', () => {
     expect(EvidencePolicy.sizeViolation(0)).toBeDefined();
     expect(EvidencePolicy.sizeViolation(EvidencePolicy.MAX_BYTES + 1)).toBeDefined();
     expect(EvidencePolicy.sizeViolation(1024)).toBeUndefined();
+    expect(EvidencePolicy.sizeViolation(EvidencePolicy.MAX_BYTES + 1, 'video/mp4')).toBeUndefined();
+    expect(EvidencePolicy.sizeViolation(EvidencePolicy.MAX_VIDEO_BYTES + 1, 'video/webm')).toBeDefined();
+    expect(EvidencePolicy.sizeViolation(EvidencePolicy.MAX_BYTES + 1, 'image/png')).toBeDefined();
+    expect(EvidencePolicy.typeFor('video/webm')).toBe('video');
+    expect(EvidencePolicy.typeFor('video/quicktime')).toBe('video');
   });
 
   it('clasifica el tipo de adjunto', () => {

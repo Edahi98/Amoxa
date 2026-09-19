@@ -5,7 +5,7 @@ import { EvidencePolicy } from '@ejecucion-evidencia/evidence-policy.js';
 export class EvidenceUploadOptions {
   public static build(): MulterOptions {
     return {
-      limits: { fileSize: EvidencePolicy.MAX_BYTES, files: 1 },
+      limits: { fileSize: EvidencePolicy.MAX_VIDEO_BYTES, files: 1 },
       fileFilter: (_request, file, callback) => {
         const violation = EvidencePolicy.mimeViolation(file.mimetype);
         if (violation !== undefined) {

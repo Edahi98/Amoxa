@@ -8,6 +8,9 @@ import { PlantillaBodySchema, type PlantillaBody } from '@validators-plantillas/
 import { PlantillaIdSchema } from '@validators-plantillas/plantilla-id.schema.js';
 import { PreguntaBodySchema, type PreguntaBody } from '@validators-plantillas/pregunta-body.schema.js';
 import { PropuestaIdSchema } from '@validators-plantillas/propuesta-id.schema.js';
+import { ImportarBodySchema, type ImportarBody } from '@validators-plantillas/importar-body.schema.js';
+import { OrdenBodySchema, type OrdenBody } from '@validators-plantillas/orden-body.schema.js';
+import { PlantillaImportService, type ImportResult } from '@plantillas-importacion/plantilla-import.service.js';
 import { PlantillaMapper } from '@plantillas-mappers-plantilla/plantilla-mapper.js';
 import type { PlantillaSummary, PlantillaView, PropuestaRow } from '@plantillas-mappers-plantilla/plantilla-view.js';
 import { PlantillaDocumentService } from '@plantillas-services-plantilla/plantilla-document.service.js';
@@ -20,6 +23,7 @@ export class PlantillasController {
     private readonly plantillas: PlantillasService,
     private readonly query: PlantillaQueryService,
     private readonly documents: PlantillaDocumentService,
+    private readonly importer: PlantillaImportService,
   ) {}
 
   @Get()
@@ -95,6 +99,47 @@ export class PlantillasController {
     @Req() request: Request,
   ): Promise<PropuestaRow> {
     return this.plantillas.propose(id, request.user!, RequestRole.resolve(request), body);
+  }
+
+  @Put(':id/preguntas/orden')
+  @Authorized.permissions('plantilla.editar')
+  public reorder(
+    @Param('id', new ZodValidationPipe(PlantillaIdSchema)) id: string,
+    @Body(new ZodValidationPipe(OrdenBodySchema)) body: OrdenBody,
+    @Req() request: Request,
+  ): Promise<PlantillaView> {
+    return this.plantillas.reorder(id, request.user!, body.preguntas.map((item) => item.id));
+  }
+
+  @Post(':id/importar')
+  @HttpCode(HttpStatus.OK)
+  @Authorized.permissions('plantilla.editar')
+  public importQuestions(
+    @Param('id', new ZodValidationPipe(PlantillaIdSchema)) id: string,
+    @Body(new ZodValidationPipe(ImportarBodySchema)) body: ImportarBody,
+    @Req() request: Request,
+  ): Promise<ImportResult> {
+    return this.importer.import(id, request.user!, RequestRole.resolve(request), body);
+  }
+
+  @Post(':id/propuestas/aceptar-todas')
+  @HttpCode(HttpStatus.OK)
+  @Authorized.permissions('plantilla.editar')
+  public acceptAll(
+    @Param('id', new ZodValidationPipe(PlantillaIdSchema)) id: string,
+    @Req() request: Request,
+  ): Promise<{ resueltas: number }> {
+    return this.importer.resolveAll(id, request.user!, 'aceptar');
+  }
+
+  @Post(':id/propuestas/rechazar-todas')
+  @HttpCode(HttpStatus.OK)
+  @Authorized.permissions('plantilla.editar')
+  public rejectAll(
+    @Param('id', new ZodValidationPipe(PlantillaIdSchema)) id: string,
+    @Req() request: Request,
+  ): Promise<{ resueltas: number }> {
+    return this.importer.resolveAll(id, request.user!, 'rechazar');
   }
 
   @Post(':id/propuestas/:propuestaId/aceptar')

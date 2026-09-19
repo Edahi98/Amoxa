@@ -12,7 +12,10 @@ export class FileSignature {
       case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         return FileSignature.startsWith(content, [0x50, 0x4b, 0x03, 0x04]);
       case 'video/mp4':
+      case 'video/quicktime':
         return FileSignature.ascii(content, 4, 8) === 'ftyp';
+      case 'video/webm':
+        return FileSignature.startsWith(content, [0x1a, 0x45, 0xdf, 0xa3]);
       case 'text/plain':
         return !content.subarray(0, 4096).includes(0);
       default:

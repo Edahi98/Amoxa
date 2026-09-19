@@ -54,15 +54,17 @@ export class PlantillaScreenDataProvider extends ScreenDataProvider {
       row = (await this.query.eligible(organizacionId))[0];
     }
     const blank = { texto: '', clausula: '', criterio: '' };
+    const importar = { archivo: null, clausula: '', criterio: '' };
+    const orden = { preguntas: [] as unknown[] };
     if (row === undefined) {
       return {
-        data: { plantilla: { nombre: '', preguntas: [] }, pregunta: blank, propuestas: [] },
+        data: { plantilla: { nombre: '', preguntas: [] }, pregunta: blank, importar, orden, propuestas: [] },
         offline: { enabled: false },
       };
     }
     const view = PlantillaMapper.toView(await this.query.detailOf(row, viewer));
     return {
-      data: { plantilla: view, pregunta: blank, propuestas: view.propuestas },
+      data: { plantilla: view, pregunta: blank, importar, orden: { preguntas: view.preguntas }, propuestas: view.propuestas },
       entity: this.entityOf(row),
       offline: { enabled: false },
     };

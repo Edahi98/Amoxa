@@ -33,6 +33,7 @@ export class EvidenciaScreenProvider extends ScreenDataProvider {
           pregunta: selected === undefined ? 'Responda primero una pregunta del checklist para adjuntarle evidencia.' : selected.texto,
           archivos: selected?.respuesta?.evidencias ?? [],
           verificada: selected?.respuesta?.verificada ?? false,
+          codigo: '',
           opciones_respuestas: answered.map((item) => ({
             value: item.respuesta?.id ?? item.preguntaId,
             label: `${item.orden}. ${ExecutionScreenData.truncate(item.texto)}`,

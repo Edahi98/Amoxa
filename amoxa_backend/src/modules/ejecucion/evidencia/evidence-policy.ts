@@ -2,6 +2,7 @@ export type AttachmentType = 'foto' | 'doc' | 'captura' | 'video';
 
 export class EvidencePolicy {
   public static readonly MAX_BYTES = 15 * 1024 * 1024;
+  public static readonly MAX_VIDEO_BYTES = 50 * 1024 * 1024;
 
   public static readonly SHA256_PATTERN = /^[a-f0-9]{64}$/;
 
@@ -13,6 +14,8 @@ export class EvidencePolicy {
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'doc',
     'text/plain': 'doc',
     'video/mp4': 'video',
+    'video/webm': 'video',
+    'video/quicktime': 'video',
   };
 
   public static isAllowedMime(mime: string): boolean {
@@ -48,18 +51,21 @@ export class EvidencePolicy {
     return cleaned.slice(0, 100 - extension.length) + extension;
   }
 
-  public static sizeViolation(size: number): string | undefined {
+  public static maxBytesFor(mime?: string): number {
+    return mime !== undefined && EvidencePolicy.TYPE_BY_MIME[mime.toLowerCase()] === 'video' ? EvidencePolicy.MAX_VIDEO_BYTES : EvidencePolicy.MAX_BYTES;
+  }
+
+  public static sizeViolation(size: number, mime?: string): string | undefined {
     if (size <= 0) {
       return 'El archivo está vacío.';
     }
-    return size > EvidencePolicy.MAX_BYTES
-      ? `El archivo supera el tamaño máximo permitido (${Math.floor(EvidencePolicy.MAX_BYTES / (1024 * 1024))} MB).`
-      : undefined;
+    const limit = EvidencePolicy.maxBytesFor(mime);
+    return size > limit ? `El archivo supera el tamaño máximo permitido (${Math.floor(limit / (1024 * 1024))} MB).` : undefined;
   }
 
   public static mimeViolation(mime: string): string | undefined {
     return EvidencePolicy.isAllowedMime(mime)
       ? undefined
-      : 'Tipo de archivo no permitido. Adjunte una imagen (JPEG, PNG, WebP), PDF, DOCX, TXT o video MP4.';
+      : 'Tipo de archivo no permitido. Adjunte una imagen (JPEG, PNG, WebP), PDF, DOCX, TXT o video (MP4, WebM o MOV).';
   }
 }

@@ -1,3 +1,4 @@
+import type { DocxBrand } from '@docx/docx-brand.js';
 import { DocxKit } from '@docx/docx-kit.js';
 import type { DocxFile } from '@docx/docx-file.js';
 import { DocxRenderer } from '@docx/docx-renderer.js';
@@ -11,15 +12,17 @@ export class InformeAuditoriaDocument {
     distribuido: 'Distribuido',
   };
 
-  public static async build(data: InformeDetalle): Promise<DocxFile> {
+  public static async build(data: InformeDetalle, brand?: DocxBrand): Promise<DocxFile> {
+    const accent = brand?.color;
     return DocxRenderer.render({
       title: 'Informe de auditoría interna',
       subtitle: `Período ${data.periodo} · ISO 9001:2015 cláusula 9.2 e ISO 19011`,
       organization: data.organizacionNombre,
       code: 'AMX-INF-01',
       fileName: `informe-auditoria-${data.periodo}`,
+      brand,
       body: [
-        DocxKit.heading('Datos de la auditoría'),
+        DocxKit.heading('Datos de la auditoría', 1, accent),
         DocxKit.keyValueTable([
           ['Organización', data.organizacionNombre],
           ['Período del programa', data.periodo],
@@ -31,24 +34,24 @@ export class InformeAuditoriaDocument {
           ['Fecha de emisión', data.fechaEmision ?? 'Pendiente'],
           ['Grado de conformidad', data.gradoConformidad ?? InformeContentBuilder.conformity(data.hallazgos)],
         ]),
-        DocxKit.heading('Objetivo'),
+        DocxKit.heading('Objetivo', 1, accent),
         DocxKit.paragraph(data.objetivos ?? 'No se definió un objetivo específico.'),
-        DocxKit.heading('Alcance'),
+        DocxKit.heading('Alcance', 1, accent),
         ...(data.procesos.length === 0 ? [DocxKit.paragraph('Sin procesos definidos.')] : DocxKit.bullets(data.procesos)),
-        DocxKit.heading('Criterios de auditoría'),
+        DocxKit.heading('Criterios de auditoría', 1, accent),
         ...(data.criterios.length === 0 ? [DocxKit.paragraph('Sin criterios definidos.')] : DocxKit.bullets(data.criterios)),
-        DocxKit.heading('Equipo auditor'),
+        DocxKit.heading('Equipo auditor', 1, accent),
         DocxKit.dataTable(
           ['Nombre', 'Rol en el equipo'],
           data.equipo.map((member) => [member.nombre, member.rol]),
         ),
-        DocxKit.heading('Resumen ejecutivo'),
+        DocxKit.heading('Resumen ejecutivo', 1, accent),
         DocxKit.paragraph(InformeContentBuilder.summary(data.procesos, data.hallazgos)),
-        DocxKit.heading('Conclusiones de la auditoría'),
+        DocxKit.heading('Conclusiones de la auditoría', 1, accent),
         DocxKit.paragraph(data.conclusiones ?? 'Sin conclusiones registradas.'),
-        DocxKit.heading('Declaración sobre el muestreo'),
+        DocxKit.heading('Declaración sobre el muestreo', 1, accent),
         DocxKit.paragraph(data.declaracionMuestreo ?? InformeContentBuilder.SAMPLING_STATEMENT),
-        DocxKit.heading('Hallazgos'),
+        DocxKit.heading('Hallazgos', 1, accent),
         DocxKit.dataTable(
           ['#', 'Proceso', 'Clasificación', 'Cláusula', 'Descripción', 'Estado'],
           data.hallazgos.map((hallazgo, index) => [
@@ -61,7 +64,7 @@ export class InformeAuditoriaDocument {
           ]),
           [0.4, 1.4, 1.4, 0.9, 3, 1],
         ),
-        DocxKit.heading('Acciones correctivas asociadas'),
+        DocxKit.heading('Acciones correctivas asociadas', 1, accent),
         DocxKit.dataTable(
           ['Acción', 'Causa raíz', 'Responsable', 'Fecha límite', 'Estado'],
           data.acciones.map((action) => [
@@ -73,12 +76,12 @@ export class InformeAuditoriaDocument {
           ]),
           [2.5, 2, 1.4, 1.1, 1],
         ),
-        DocxKit.heading('Distribución'),
+        DocxKit.heading('Distribución', 1, accent),
         DocxKit.dataTable(
           ['Destinatario', 'Rol', 'Fecha de envío', 'Lectura'],
           data.distribucion.map((item) => [item.nombre, item.rol, item.fechaEnvio.slice(0, 10), item.leidoEn ? item.leidoEn.slice(0, 10) : 'Pendiente']),
         ),
-        DocxKit.heading('Firmas'),
+        DocxKit.heading('Firmas', 1, accent),
         DocxKit.paragraph(
           data.firma === null
             ? 'El informe aún no está firmado.'

@@ -1,6 +1,8 @@
 import { z } from 'zod';
+import { SafeTextValidator } from '@validators/safe-text.validator.js';
 import { OptionalValue } from '@validators-ejecucion/optional-value.js';
 
+const safeText = new SafeTextValidator();
 const ClienteIdSchema = z.string().regex(/^[A-Za-z0-9_-]{1,64}$/);
 const Sha256Schema = z.string().regex(/^[a-f0-9]{64}$/);
 
@@ -33,6 +35,7 @@ export const SubirEvidenciaSchema = z.looseObject({
       archivos: z.array(ArchivoDeclaradoSchema).max(50).optional(),
       ubicacion: UbicacionSchema.nullish(),
       verificada: z.boolean().optional(),
+      codigo: OptionalValue.of(safeText.wrap(z.string().trim().min(1).max(200).regex(/^[^\x00-\x1f<>]+$/))),
     })
     .optional(),
 });

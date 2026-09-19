@@ -14,6 +14,9 @@ import { InformeDraftService } from '@informes-services-informe/informe-draft.se
 import { InformeLoaderService } from '@informes-services-informe/informe-loader.service.js';
 import { InformeReadService } from '@informes-services-informe/informe-read.service.js';
 import { InformeReviewService } from '@informes-services-informe/informe-review.service.js';
+import { InformeShareService } from '@informes-services-informe/informe-share.service.js';
+import { MarcaService } from '@marca-services/marca.service.js';
+import { SecurityLogService } from '@seguridad/security-log.service.js';
 
 vi.setConfig({ testTimeout: 60000 });
 
@@ -28,12 +31,14 @@ describe('InformesController', () => {
     const loader = new InformeLoaderService(database.db);
     const drafts = new InformeDraftService(database.db, loader, notifications, versions);
     const reader = new InformeReadService(database.db, loader, drafts, versions);
+    const marca = new MarcaService(database.db, new SecurityLogService(database.db));
     controller = new InformesController(
       reader,
       new InformeReviewService(database.db, loader, versions),
       new InformeDistributionService(database.db, loader, notifications, versions),
       new InformeApprovalService(database.db, loader, notifications, versions),
-      new InformeDocumentService(reader),
+      new InformeDocumentService(reader, marca),
+      new InformeShareService(database.db, reader, loader, new SecurityLogService(database.db), marca),
     );
   }, 60000);
 
@@ -46,11 +51,11 @@ describe('InformesController', () => {
   });
 
   it('cada ruta declara el permiso de la tabla de acciones', () => {
-    for (const route of ['updateConclusions', 'sign', 'distribute', 'acknowledge', 'approve']) {
+    for (const route of ['updateConclusions', 'sign', 'distribute', 'acknowledge', 'approve', 'createLink', 'revokeLinks']) {
       expect(RouteGuardInspector.guardsOf(InformesController, route)).toContain('PermissionsGuard');
     }
     expect(RouteGuardInspector.routes(InformesController).map((item) => item.route).sort()).toEqual(
-      ['acknowledge', 'approve', 'detail', 'distribute', 'document', 'list', 'sign', 'updateConclusions'].sort(),
+      ['acknowledge', 'approve', 'createLink', 'detail', 'distribute', 'document', 'list', 'revokeLinks', 'sign', 'updateConclusions'].sort(),
     );
   });
 

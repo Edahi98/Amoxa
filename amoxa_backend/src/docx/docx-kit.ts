@@ -26,7 +26,7 @@ export class DocxKit {
     });
   }
 
-  public static heading(value: string, level: 1 | 2 = 1): Paragraph {
+  public static heading(value: string, level: 1 | 2 = 1, color: string = DocxStyles.PRIMARY): Paragraph {
     return new Paragraph({
       heading: level === 1 ? HeadingLevel.HEADING_1 : HeadingLevel.HEADING_2,
       spacing: { before: level === 1 ? 320 : 200, after: 120 },
@@ -34,7 +34,7 @@ export class DocxKit {
       children: [
         DocxKit.text(value, {
           bold: true,
-          color: DocxStyles.PRIMARY,
+          color,
           size: level === 1 ? DocxStyles.SIZE_H1 : DocxStyles.SIZE_H2,
         }),
       ],

@@ -87,7 +87,7 @@ export class EvidenceService {
     if (mimeIssue !== undefined) {
       throw new UnsupportedMediaTypeException(mimeIssue);
     }
-    const sizeIssue = EvidencePolicy.sizeViolation(file.buffer.length);
+    const sizeIssue = EvidencePolicy.sizeViolation(file.buffer.length, file.mimetype);
     if (sizeIssue !== undefined) {
       throw file.buffer.length === 0 ? BusinessRule.violation(sizeIssue) : new PayloadTooLargeException(sizeIssue);
     }
@@ -157,6 +157,10 @@ export class EvidenceService {
 
       if (outcome.saved.length === 0 && outcome.existing === 0) {
         throw BusinessRule.violation('Adjunte al menos un archivo como evidencia.', 'EVIDENCIA_VACIA');
+      }
+      const code = input.evidencia?.codigo;
+      if (code !== undefined && code !== respuesta.codigoReferencia) {
+        await tx.update(respuestaEvidencia).set({ codigoReferencia: code }).where(eq(respuestaEvidencia.id, respuesta.id));
       }
       let verified = respuesta.verificada;
       if (input.evidencia?.verificada === true && !verified) {
