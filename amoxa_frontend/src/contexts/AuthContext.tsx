@@ -1,7 +1,9 @@
-import { createContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AuthApi } from '@utils-auth/authApi.js';
 import { JwtPayloadDecoder } from '@utils/decodeJwtPayload.js';
 import { TokenStorage } from '@utils-storage/tokenStorage.js';
+import { SessionExpiredBus } from '@utils-api/SessionExpiredBus.js';
+import { ScreenApi } from '@sdui-api-screen/screen-api';
 import type { AuthUser } from '@utils-auth/authUser.js';
 
 export type { AuthUser };
@@ -46,15 +48,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     TokenStorage.setStored(accessToken);
   };
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null);
     setUser(null);
     TokenStorage.clear();
-  };
+    ScreenApi.clearCache();
+  }, []);
+
+  useEffect(() => SessionExpiredBus.subscribe(logout), [logout]);
 
   const value = useMemo<AuthContextValue>(
     () => ({ token, user, isAuthenticated: token !== null && !isExpired, login, logout }),
-    [token, user, isExpired],
+    [token, user, isExpired, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

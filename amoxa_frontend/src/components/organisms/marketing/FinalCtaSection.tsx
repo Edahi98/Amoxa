@@ -1,5 +1,5 @@
 import { ArrowRight } from '@phosphor-icons/react';
-import { Container } from '@atoms/Container.js';
+import { Container } from '@atoms-layout/Container.js';
 import { LinkButton } from '@atoms-button/LinkButton.js';
 
 export function FinalCtaSection() {

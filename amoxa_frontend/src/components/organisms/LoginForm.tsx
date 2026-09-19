@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Input } from '@atoms/Input.js';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Input } from '@atoms-form/Input.js';
 import { Button } from '@atoms-button/Button.js';
 import { useAuth } from '@hooks/useAuth.js';
 import { AuthApiError } from '@utils-auth/authApiError.js';
@@ -8,8 +8,9 @@ import { LoginCredentialsSchema, type LoginCredentialsErrors } from '@validators
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const activation = useLocation().state as { activated?: boolean; email?: string } | null;
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(activation?.email ?? '');
   const [password, setPassword] = useState('');
   const [fieldErrors, setFieldErrors] = useState<LoginCredentialsErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -42,6 +43,11 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+      {activation?.activated ? (
+        <p role="status" className="text-sm text-foreground">
+          Sistema activado. Inicia sesión con la cuenta que acabas de crear.
+        </p>
+      ) : null}
       <Input
         label="Correo"
         type="email"

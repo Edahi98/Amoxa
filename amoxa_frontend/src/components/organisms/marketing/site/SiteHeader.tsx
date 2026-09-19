@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { List, X } from '@phosphor-icons/react';
-import { Container } from '@atoms/Container.js';
+import { Container } from '@atoms-layout/Container.js';
 import { LinkButton } from '@atoms-button/LinkButton.js';
 import { ThemeToggle } from '@atoms/ThemeToggle.js';
 

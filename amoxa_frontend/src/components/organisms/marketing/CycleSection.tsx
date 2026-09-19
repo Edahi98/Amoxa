@@ -1,5 +1,5 @@
 import { CalendarCheck, ClipboardText, SealCheck } from '@phosphor-icons/react';
-import { Container } from '@atoms/Container.js';
+import { Container } from '@atoms-layout/Container.js';
 import { CycleStep } from '@molecules-marketing/CycleStep.js';
 
 const STEPS = [

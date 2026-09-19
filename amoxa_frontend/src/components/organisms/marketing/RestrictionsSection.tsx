@@ -1,4 +1,4 @@
-import { Container } from '@atoms/Container.js';
+import { Container } from '@atoms-layout/Container.js';
 import { RestrictionRow } from '@molecules-marketing/RestrictionRow.js';
 
 const RESTRICTIONS = [
