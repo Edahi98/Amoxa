@@ -1,4 +1,4 @@
-import { ParseError } from '@sdui-parsing-support/parse-error';
+import { ParseError } from '@sdui-parsing-support-parse/parse-error';
 
 export class ParseErrorCollector {
   private readonly items: ParseError[] = [];

@@ -1,7 +1,7 @@
 import { AbstractNodeParser } from '@sdui-parsers/abstract-node-parser';
 import { InputGuard } from '@sdui-parsing-support/input-guard';
-import { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
-import { ParseResult } from '@sdui-parsing-support/parse-result';
+import { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
+import { ParseResult } from '@sdui-parsing-support-parse/parse-result';
 import { ScreenContextParser } from '@sdui-parsers-screen/screen-context-parser';
 import { ComponentParser } from '@sdui-parsers/component-parser';
 import { ActionMapParser } from '@sdui-parsers-action/action-map-parser';

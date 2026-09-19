@@ -1,4 +1,4 @@
-import type { ParseError } from '@sdui-parsing-support/parse-error';
+import type { ParseError } from '@sdui-parsing-support-parse/parse-error';
 
 export class ParseResult<TValue> {
   public readonly ok: boolean;

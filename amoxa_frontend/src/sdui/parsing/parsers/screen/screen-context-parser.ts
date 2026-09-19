@@ -1,6 +1,6 @@
 import { AbstractNodeParser } from '@sdui-parsers/abstract-node-parser';
 import { InputGuard } from '@sdui-parsing-support/input-guard';
-import { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
+import { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
 import { ScreenContextModel } from '@sdui-model-screen/screen-context.model';
 import { ScreenUserModel } from '@sdui-model-screen/screen-user.model';
 import { ScreenEntityModel } from '@sdui-model-screen/screen-entity.model';

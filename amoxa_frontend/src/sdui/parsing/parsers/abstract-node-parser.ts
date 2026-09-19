@@ -1,5 +1,5 @@
 import type { InputGuard } from '@sdui-parsing-support/input-guard';
-import type { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
+import type { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
 
 export abstract class AbstractNodeParser<TResult> {
   protected readonly guard: InputGuard;

@@ -1,6 +1,6 @@
 import { AbstractNodeParser } from '@sdui-parsers/abstract-node-parser';
 import { InputGuard } from '@sdui-parsing-support/input-guard';
-import { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
+import { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
 import { StateTransitionModel } from '@sdui-model-state/state-transition.model';
 
 export class StateTransitionParser extends AbstractNodeParser<StateTransitionModel> {

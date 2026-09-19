@@ -1,6 +1,6 @@
 import { AbstractNodeParser } from '@sdui-parsers/abstract-node-parser';
 import { InputGuard } from '@sdui-parsing-support/input-guard';
-import { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
+import { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
 import { ConditionNode } from '@sdui-condition/condition-node';
 import { FieldConditionNode } from '@sdui-condition-nodes/field-condition-node';
 import { AllConditionNode } from '@sdui-condition-nodes/all-condition-node';

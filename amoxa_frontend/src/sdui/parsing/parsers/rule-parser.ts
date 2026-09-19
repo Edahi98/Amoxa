@@ -1,6 +1,6 @@
 import { AbstractNodeParser } from '@sdui-parsers/abstract-node-parser';
 import { InputGuard } from '@sdui-parsing-support/input-guard';
-import { ParseErrorCollector } from '@sdui-parsing-support/parse-error-collector';
+import { ParseErrorCollector } from '@sdui-parsing-support-parse/parse-error-collector';
 import { ConditionParser } from '@sdui-parsers/condition-parser';
 import { RuleModel } from '@sdui-model/rule.model';
 import { RULE_SEVERITIES } from '@sdui-model/sdui-enums';

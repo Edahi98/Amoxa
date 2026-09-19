@@ -5,7 +5,7 @@ export const COMPONENT_TYPES = [
   'checklist_item', 'evidence_capture', 'signature', 'geo_stamp',
   'person_picker', 'process_picker', 'clause_picker',
   'finding_card', 'action_card', 'audit_card', 'program_calendar', 'gantt',
-  'button', 'banner', 'empty_state', 'sync_status',
+  'button', 'banner', 'empty_state', 'sync_status', 'chart', 'table',
 ] as const;
 export type ComponentType = (typeof COMPONENT_TYPES)[number];
 
@@ -24,7 +24,7 @@ export type ActionType = (typeof ACTION_TYPES)[number];
 export const ACTION_METHODS = ['GET', 'POST', 'PUT', 'PATCH'] as const;
 export type ActionMethod = (typeof ACTION_METHODS)[number];
 
-export const USER_ROLES = ['direccion', 'gestor', 'auditor', 'dueno_proceso'] as const;
+export const USER_ROLES = ['direccion', 'gestor', 'lider', 'auditor', 'dueno_proceso', 'superusuario', 'administrador'] as const;
 export type UserRole = (typeof USER_ROLES)[number];
 
 export const CONFLICT_POLICIES = ['last_write_wins', 'server_wins', 'manual'] as const;
