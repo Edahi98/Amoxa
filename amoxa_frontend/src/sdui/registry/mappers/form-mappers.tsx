@@ -6,12 +6,23 @@ import { DateInput } from '@atoms-form/DateInput.js';
 import { Select } from '@atoms-form/Select.js';
 import { Toggle } from '@atoms-form/Toggle.js';
 import { RadioGroup, type RadioDirection, type RadioVariant } from '@atoms-form/RadioGroup.js';
+import { CodeScanner } from '@molecules-form/CodeScanner.js';
+import { FileInput, type EncodedFile } from '@molecules-form/FileInput.js';
+import { SortableList, type SortableItem } from '@molecules-form/SortableList.js';
 import { MultiSelect } from '@molecules-form/MultiSelect.js';
 import { OptionPicker } from '@molecules-form/OptionPicker.js';
 import { PropReader } from '@sdui-registry-adapters/prop-reader';
 import type { RenderContext } from '@sdui-registry/render-context';
 
 export class FormMappers {
+  private static file(value: unknown): EncodedFile | null {
+    if (!PropReader.isRecord(value)) return null;
+    const nombre = PropReader.string(value, 'nombre');
+    const contenido = PropReader.string(value, 'contenido');
+    if (nombre === undefined || contenido === undefined) return null;
+    return { nombre, contenido, tipo: PropReader.string(value, 'tipo') ?? '', tamano: PropReader.number(value, 'tamano') ?? 0 };
+  }
+
   private static readonly INPUT_TYPES = ['text', 'email', 'tel', 'url', 'search'] as const;
   private static readonly DIRECTIONS: readonly RadioDirection[] = ['column', 'row'];
   private static readonly VARIANTS: readonly RadioVariant[] = ['list', 'segmented'];
@@ -26,6 +37,7 @@ export class FormMappers {
         label={ctx.required ? `${label} *` : label}
         value={FormMappers.text(ctx.value)}
         placeholder={PropReader.string(ctx.props, 'placeholder')}
+        hint={PropReader.string(ctx.props, 'hint')}
         required={ctx.required || undefined}
         disabled={ctx.disabled}
         error={ctx.error}
@@ -59,6 +71,62 @@ export class FormMappers {
         onValueChange={(next) => ctx.setValue(next, 'typing')}
       />
     );
+  }
+
+  public static fileInput(ctx: RenderContext): ReactNode {
+    const label = PropReader.string(ctx.props, 'label') ?? ctx.node.id;
+    return (
+      <FileInput
+        id={ctx.node.id}
+        label={ctx.required ? `${label} *` : label}
+        accept={PropReader.string(ctx.props, 'accept')}
+        maxBytes={PropReader.number(ctx.props, 'maxBytes')}
+        hint={PropReader.string(ctx.props, 'hint')}
+        value={FormMappers.file(ctx.value)}
+        disabled={ctx.disabled}
+        error={ctx.error}
+        onValueChange={(next) => ctx.setValue(next)}
+      />
+    );
+  }
+
+  public static codeScanner(ctx: RenderContext): ReactNode {
+    const label = PropReader.string(ctx.props, 'label') ?? ctx.node.id;
+    return (
+      <CodeScanner
+        id={ctx.node.id}
+        label={ctx.required ? `${label} *` : label}
+        hint={PropReader.string(ctx.props, 'hint')}
+        value={FormMappers.text(ctx.value)}
+        disabled={ctx.disabled}
+        error={ctx.error}
+        onValueChange={(next) => ctx.setValue(next)}
+      />
+    );
+  }
+
+  public static sortableList(ctx: RenderContext): ReactNode {
+    return (
+      <SortableList
+        label={PropReader.string(ctx.props, 'label') ?? ctx.node.id}
+        hint={PropReader.string(ctx.props, 'hint')}
+        emptyText={PropReader.string(ctx.props, 'emptyText')}
+        items={FormMappers.sortableItems(ctx.value)}
+        disabled={ctx.disabled}
+        onItemsChange={(next) => ctx.setValue(next)}
+      />
+    );
+  }
+
+  private static sortableItems(value: unknown): SortableItem[] {
+    if (!Array.isArray(value)) return [];
+    return value.flatMap((entry): SortableItem[] => {
+      if (!PropReader.isRecord(entry)) return [];
+      const id = PropReader.string(entry, 'id');
+      const title = PropReader.string(entry, 'title');
+      if (id === undefined || title === undefined) return [];
+      return [{ id, title, description: PropReader.string(entry, 'description') }];
+    });
   }
 
   public static dateInput(ctx: RenderContext): ReactNode {

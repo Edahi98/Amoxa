@@ -1,5 +1,5 @@
 import { useId, useState, type ChangeEvent } from 'react';
-import { CircleNotch, FileText, MapPin, Paperclip } from '@phosphor-icons/react';
+import { CircleNotch, FileText, MapPin, Paperclip, VideoCamera } from '@phosphor-icons/react';
 import { Badge } from '@atoms-display/Badge.js';
 import { Banner } from '@molecules-feedback/Banner.js';
 import { DateFormatter } from '@utils-format/DateFormatter.js';
@@ -26,7 +26,7 @@ export interface EvidenceCaptureProps {
 
 export function EvidenceCapture({
   label = 'Evidencia',
-  accept = 'image/*,application/pdf',
+  accept = 'image/*,video/*,application/pdf',
   requireGeo = false,
   value,
   onValueChange,
@@ -113,7 +113,11 @@ export function EvidenceCapture({
           {value.map((item) => (
             <li key={item.id} className="flex min-w-0 flex-col gap-2 rounded-lg border border-border bg-card p-3">
               <div className="flex min-w-0 items-start gap-2">
-                <FileText size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-muted-foreground" />
+                {item.mimeType.startsWith('video/') ? (
+                  <VideoCamera size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-muted-foreground" />
+                ) : (
+                  <FileText size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-muted-foreground" />
+                )}
                 <div className="flex min-w-0 flex-1 flex-col">
                   <span className="min-w-0 break-words text-sm font-semibold text-foreground">{item.name}</span>
                   <span className="text-xs text-muted-foreground tabular-nums">

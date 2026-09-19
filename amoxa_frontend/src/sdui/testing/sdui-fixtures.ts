@@ -157,6 +157,9 @@ export class SduiFixtures {
                 bind: 'grafica',
                 props: { kind: 'bar', title: 'Incumplimientos por área', ariaLabel: 'Incumplimientos por área', labels: [], datasets: [{ label: 'Incumplimientos', data: [] }] },
               },
+              { type: 'code_scanner', id: 'codigo', bind: 'codigo', props: { label: 'Código' } },
+              { type: 'sortable_list', id: 'orden', bind: 'orden', props: { label: 'Orden' } },
+              { type: 'file_input', id: 'archivo', bind: 'archivo', props: { label: 'Archivo', accept: '.xlsx' } },
               {
                 type: 'table',
                 id: 'tabla',

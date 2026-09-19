@@ -5,6 +5,7 @@ import { ProgressBar } from '@atoms-display/ProgressBar.js';
 import { ClauseTag } from '@atoms-display/ClauseTag.js';
 import { SyncStatus, type SyncState } from '@atoms-display/SyncStatus.js';
 import { Button, type ButtonSize, type ButtonVariant } from '@atoms-button/Button.js';
+import { NavLocked } from '@molecules-layout/NavLocked.js';
 import { NavItem } from '@molecules-layout/NavItem.js';
 import { NavTile } from '@molecules-layout/NavTile.js';
 import { IconCatalog } from '@utils-icon/IconCatalog.js';
@@ -119,6 +120,9 @@ export class DisplayMappers {
 
   public static button(ctx: RenderContext): ReactNode {
     const icon = IconCatalog.resolve(PropReader.string(ctx.props, 'icon'));
+    if (PropReader.string(ctx.props, 'display') === 'nav' && ctx.props['locked'] === true) {
+      return <NavLocked label={PropReader.string(ctx.props, 'label') ?? ctx.node.id} hint={PropReader.string(ctx.props, 'hint')} />;
+    }
     if (PropReader.string(ctx.props, 'display') === 'nav') {
       return (
         <NavItem
