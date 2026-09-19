@@ -1,5 +1,5 @@
 import { pgTable, uuid, integer, text, varchar, boolean } from 'drizzle-orm/pg-core';
-import { plantillaChecklist } from '@schemas-auditoria/plantilla-checklist.schema.js';
+import { plantillaChecklist } from '@schemas-plantilla/plantilla-checklist.schema.js';
 import { tipoCriterioEnum, tipoRespuestaEnum } from '@schemas/enums.js';
 
 export const pregunta = pgTable('pregunta', {

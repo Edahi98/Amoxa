@@ -1,6 +1,6 @@
 import { pgTable, uuid, text, date, boolean } from 'drizzle-orm/pg-core';
-import { programaAuditoria } from '@schemas-auditoria/programa-auditoria.schema.js';
-import { plantillaChecklist } from '@schemas-auditoria/plantilla-checklist.schema.js';
+import { programaAuditoria } from '@schemas-programa/programa-auditoria.schema.js';
+import { plantillaChecklist } from '@schemas-plantilla/plantilla-checklist.schema.js';
 import { usuario } from '@schemas-organizacion/usuario.schema.js';
 import { metodoAuditoriaEnum, estadoAuditoriaEnum } from '@schemas/enums.js';
 

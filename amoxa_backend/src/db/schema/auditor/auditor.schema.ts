@@ -7,6 +7,8 @@ export const auditor = pgTable('auditor', {
     .primaryKey()
     .references(() => usuario.id),
   disciplinas: text('disciplinas').array(),
+  formacion: text('formacion'),
+  experiencia: text('experiencia'),
   estado: estadoAuditorEnum('estado').notNull(),
   vigenciaHasta: date('vigencia_hasta'),
 });

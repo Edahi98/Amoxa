@@ -6,6 +6,18 @@ export const rolUsuarioEnum = pgEnum('rol_usuario', [
   'lider_auditor',
   'auditor',
   'auditado',
+  'superusuario',
+  'administrador',
+]);
+
+export const passwordRequestTypeEnum = pgEnum('password_request_type', ['invite', 'reset']);
+
+export const passwordRequestStatusEnum = pgEnum('password_request_status', [
+  'pending',
+  'approved',
+  'rejected',
+  'used',
+  'expired',
 ]);
 
 export const estadoProgramaAuditoriaEnum = pgEnum('estado_programa_auditoria', [
@@ -13,6 +25,8 @@ export const estadoProgramaAuditoriaEnum = pgEnum('estado_programa_auditoria', [
   'aprobado',
   'en_ejecucion',
   'cerrado',
+  'pendiente_aprobacion',
+  'devuelto',
 ]);
 
 export const metodoAuditoriaEnum = pgEnum('metodo_auditoria', [
@@ -25,6 +39,7 @@ export const estadoAuditoriaEnum = pgEnum('estado_auditoria', [
   'planificada',
   'en_curso',
   'cerrada',
+  'finalizada',
   'cancelada',
 ]);
 
@@ -109,4 +124,17 @@ export const confidencialidadEnum = pgEnum('confidencialidad', [
   'interno',
   'confidencial',
   'restringido',
+]);
+
+export const estadoPlantillaEnum = pgEnum('estado_plantilla', ['borrador', 'publicada', 'archivada']);
+
+export const estadoPropuestaPreguntaEnum = pgEnum('estado_propuesta_pregunta', [
+  'pendiente',
+  'aceptada',
+  'rechazada',
+]);
+
+export const resultadoEvaluacionAuditorEnum = pgEnum('resultado_evaluacion_auditor', [
+  'satisfactorio',
+  'no_satisfactorio',
 ]);

@@ -1,7 +1,8 @@
-import { pgTable, uuid, varchar, text, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, boolean, timestamp } from 'drizzle-orm/pg-core';
 import { auditoria } from '@schemas-auditoria/auditoria.schema.js';
 import { respuestaEvidencia } from '@schemas-evidencia/respuesta-evidencia.schema.js';
 import { proceso } from '@schemas-organizacion/proceso.schema.js';
+import { usuario } from '@schemas-organizacion/usuario.schema.js';
 import {
   tipoHallazgoEnum,
   clasificacionHallazgoEnum,
@@ -26,4 +27,7 @@ export const hallazgo = pgTable('hallazgo', {
   confirmado: boolean('confirmado').notNull().default(false),
   discrepancia: text('discrepancia'),
   estado: estadoHallazgoEnum('estado').notNull().default('abierto'),
+  categoria: varchar('categoria', { length: 20 }),
+  creadoPorId: uuid('creado_por_id').references(() => usuario.id),
+  creadoEn: timestamp('creado_en', { withTimezone: true }).notNull().defaultNow(),
 });
