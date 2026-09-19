@@ -228,8 +228,9 @@ const BASE = {
       'solicitud_clave.rechazar',
       'perfil.editar',
       'perfil.cambiar_clave',
+      'marca.editar',
     ],
-    screens: ['acceso.login', 'inicio', 'notificaciones', 'solicitud.lista', 'perfil.editar'],
+    screens: ['acceso.login', 'inicio', 'notificaciones', 'solicitud.lista', 'perfil.editar', 'marca.editar'],
   },
 } as const satisfies Record<string, RoleDefinition>;
 
@@ -248,6 +249,8 @@ const SUPERUSER_OWN = {
       'solicitud_clave.rechazar',
       'perfil.editar',
       'perfil.cambiar_clave',
+      'marca.editar',
+      'menu.bloquear',
     ] as const,
   screens: [
       'acceso.login',
@@ -258,6 +261,7 @@ const SUPERUSER_OWN = {
       'usuario.editar',
       'solicitud.lista',
       'perfil.editar',
+      'marca.editar',
     ] as const,
 };
 
@@ -280,6 +284,6 @@ export type RoleKey = keyof typeof ROLES;
 export type SessionRole = Exclude<RoleKey, 'sistema'>;
 export type AssignableRole = Exclude<SessionRole, 'superusuario'>;
 export type Permission = (typeof ROLES)[RoleKey]['actions'][number];
-export const SHARED_SCREENS = ['shell.navegacion'] as const;
+export const SHARED_SCREENS = ['shell.navegacion', 'flujo.lista', 'flujo.guia', 'flujo.avance'] as const;
 export type SharedScreenId = (typeof SHARED_SCREENS)[number];
 export type ScreenId = (typeof ROLES)[RoleKey]['screens'][number] | SharedScreenId;

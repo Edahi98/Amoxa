@@ -18,6 +18,7 @@ export const usuario = pgTable(
     passwordHash: varchar('password_hash', { length: 255 }),
     rol: rolUsuarioEnum('rol').notNull(),
     activo: boolean('activo').notNull().default(true),
+    menuBloqueado: boolean('menu_bloqueado').notNull().default(true),
     ultimoAccesoEn: timestamp('ultimo_acceso_en', { withTimezone: true }),
   },
   (table) => [uniqueIndex('usuario_superusuario_unico').on(table.rol).where(sql`${table.rol} = 'superusuario'`)],

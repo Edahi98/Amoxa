@@ -46,3 +46,6 @@ export * from '@schemas-hallazgo/aceptacion-hallazgo.schema.js';
 export * from '@schemas-seguridad/system-state.schema.js';
 export * from '@schemas-seguridad/password-request.schema.js';
 export * from '@schemas-seguridad/audit-log.schema.js';
+export * from '@schemas-flujo/flujo-instancia.schema.js';
+export * from '@schemas-informe/informe-enlace.schema.js';
+export * from '@schemas-organizacion/organizacion-marca.schema.js';

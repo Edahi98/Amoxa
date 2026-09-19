@@ -24,6 +24,7 @@ export const respuestaEvidencia = pgTable(
     timestamp: timestamp('timestamp', { withTimezone: true }).notNull().defaultNow(),
     geo: point('geo'),
     version: integer('version').notNull().default(1),
+    codigoReferencia: varchar('codigo_referencia', { length: 200 }),
     claveIdempotencia: varchar('clave_idempotencia', { length: 100 }),
   },
   (table) => [uniqueIndex('respuesta_evidencia_auditoria_pregunta_uq').on(table.auditoriaId, table.preguntaId)],
