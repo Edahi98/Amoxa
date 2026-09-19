@@ -1,5 +1,6 @@
 import { ConflictException, Inject, Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { eq } from 'drizzle-orm';
 import { DB } from '@db/db.module.js';
 import type { Db } from '@db/client.js';
 import { usuario } from '@schemas/index.js';
@@ -58,10 +59,12 @@ export class AuthService {
       where: (usuario, { eq }) => eq(usuario.email, dto.email),
     });
 
-    const passwordMatches = found ? await bcrypt.compare(dto.password, found.passwordHash) : false;
-    if (!found || !passwordMatches) {
+    const passwordMatches = found?.passwordHash ? await bcrypt.compare(dto.password, found.passwordHash) : false;
+    if (!found || !found.activo || !passwordMatches) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
+
+    await this.db.update(usuario).set({ ultimoAccesoEn: new Date() }).where(eq(usuario.id, found.id));
 
     const accessToken = await this.tokenService.issue({
       sub: found.id,

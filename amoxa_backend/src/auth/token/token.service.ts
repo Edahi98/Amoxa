@@ -1,8 +1,10 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { and, eq, ne } from 'drizzle-orm';
 import { createHash } from 'node:crypto';
 import { DB } from '@db/db.module.js';
 import type { Db } from '@db/client.js';
+import type { DbExecutor } from '@db/db-executor.js';
 import { token } from '@schemas/index.js';
 import type { TokenPayload } from '@auth-token/token-payload.js';
 
@@ -50,6 +52,14 @@ export class TokenService {
     }
 
     return payload;
+  }
+
+  async revokeAllFor(usuarioId: string, executor: DbExecutor = this.db, exceptRawToken?: string): Promise<void> {
+    const conditions = [eq(token.usuarioId, usuarioId), eq(token.revoked, false)];
+    if (exceptRawToken !== undefined) {
+      conditions.push(ne(token.tokenHash, this.hash(exceptRawToken)));
+    }
+    await executor.update(token).set({ revoked: true }).where(and(...conditions));
   }
 
   private async verifySignature(rawToken: string): Promise<TokenPayload> {

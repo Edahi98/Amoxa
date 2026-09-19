@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } fro
 import type { Request } from 'express';
 import { AuthService } from '@auth/auth.service.js';
 import { JwtAuthGuard } from '@auth-guards/jwt-auth.guard.js';
+import { RoleExistsGuard } from '@auth-guards-authorization/role-exists.guard.js';
 import { ZodValidationPipe } from '@common/pipes/zod-validation.pipe.js';
 import { RegisterSchema } from '@validators/register.schema.js';
 import type { RegisterInput } from '@validators/register.schema.js';
@@ -24,7 +25,7 @@ export class AuthController {
     return this.authService.login(dto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleExistsGuard)
   @Get('me')
   me(@Req() request: Request) {
     return request.user;
